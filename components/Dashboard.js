@@ -35,19 +35,19 @@ const Dashboard = ({
       </View>
 
       {/* <View style={styles.box}> */}
-      <View style={styles.box}>
-        <TouchableOpacity style={styles.blue} onPress={profileDetails}>
+      <View style={[styles.box, styles.blue]}>
+        <TouchableOpacity onPress={profileDetails}>
           <Text style={styles.buttonText}>Profile Details</Text>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.box}>
-        <TouchableOpacity style={styles.pink} onPress={repositories}>
+      <View style={[styles.box, styles.pink]}>
+        <TouchableOpacity onPress={repositories}>
           <Text style={styles.buttonText}>Repositories</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.box}>
-        <TouchableOpacity style={styles.purple} onPress={notes}>
+      <View style={[styles.box, styles.purple]}>
+        <TouchableOpacity onPress={notes}>
           <Text style={styles.buttonText}>Notes</Text>
         </TouchableOpacity>
       </View>

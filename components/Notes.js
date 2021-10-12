@@ -1,18 +1,68 @@
+import "react-native-gesture-handler";
 import React, { Component } from "react";
-import { StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 
 import Badge from "./Badge";
 import Separator from "./Separator";
 
-function Notes({ route:{params:{account}} }) {
+function Notes({
+  route: {
+    params: { account },
+  },
+}) {
+  const [note, setNote] = React.useState("");
+  const [notes, setNotes] = React.useState(["x", "y"]);
+
+  const noteTyped = (text) => {
+    console.log(text);
+    setNote(text);
+  };
+  const submitted = () => {
+    setNotes([...notes, note]);
+  };
   return (
-    <Badge
-      userInfo={{
-        avatar_url: account.avatar_url,
-        name: account.name,
-        login: account.login,
-      }}
-    />
+    <View style={styles.container}>
+      <View style={styles.container}>
+        <Badge
+          userInfo={{
+            avatar_url: account.avatar_url,
+            name: account.name,
+            login: account.login,
+          }}
+        />
+        {notes ? (
+          <ScrollView>
+            {notes.map((n) => {
+              return (
+                <View style={styles.rowContainer}>
+                  <Text>{n}</Text>
+                  <Separator />
+                </View>
+              );
+            })}
+          </ScrollView>
+        ) : null}
+      </View>
+      <View style={styles.footerContainer}>
+        <TextInput
+          style={styles.searchInput}
+          onChangeText={noteTyped}
+          value={note}
+          placeholder="New Note"
+        ></TextInput>
+
+        <TouchableOpacity style={styles.button} onPress={submitted}>
+          <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 }
 

@@ -11,6 +11,7 @@ import Dashboard from "./components/Dashboard";
 import ProfileDetails from "./components/ProfileDetails";
 import Notes from "./components/Notes";
 import Repositories from "./components/Repositories";
+import WebView from "./components/WebView";
 
 const Stack = createStackNavigator();
 
@@ -30,6 +31,7 @@ function StackNavigation() {
       <Stack.Screen name="Profile-Details" component={ProfileDetails} />
       <Stack.Screen name="Notes" component={Notes} />
       <Stack.Screen name="Repositories" component={Repositories} />
+      <Stack.Screen name="Web-View" component={WebView} />
     </Stack.Navigator>
   );
 }

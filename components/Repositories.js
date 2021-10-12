@@ -1,16 +1,64 @@
-import React from "react";
-import { StyleSheet } from "react-native";
+import "react-native-gesture-handler";
+import React, { useEffect } from "react";
+import {
+  Text,
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 
 import Separator from "./Separator";
 import Badge from "./Badge";
 
-function Repositories({ navigation, route:{params:{account}} }) {
+function Repositories({
+  navigation: { navigate },
+  route: {
+    params: { account },
+  },
+}) {
+  const [state, setState] = React.useState({
+    list: [],
+    loading: false,
+    error: "",
+  });
+  useEffect(() => {
+    async function fetchRepo(url) {
+      let response = await fetch(url);
+      let data = await response.json();
+      console.log(data);
+      setState({ ...state, list: data });
+    }
+    fetchRepo(account.repos_url);
+  }, []);
+
+  const repoPressed = (url) => {
+    navigate("Web-View", { url });
+  };
+
   return (
-      <Badge userInfo={{
-        avatar_url: account.avatar_url,
-        name: account.name,
-        login: account.login,
-      }}/>
+    <View style={styles.container}>
+      <Badge
+        userInfo={{
+          avatar_url: account.avatar_url,
+          name: account.name,
+          login: account.login,
+        }}
+      />
+      <ScrollView>
+        {state.list.map((item) => {
+          return (
+            <View style={styles.rowContainer} key={item.id}>
+              <TouchableOpacity onPress={() => repoPressed(item.html_url)}>
+                <Text style={styles.name}>{item.name}</Text>
+              </TouchableOpacity>
+              <Text style={styles.description}>{item.description}</Text>
+              <Separator />
+            </View>
+          );
+        })}
+      </ScrollView>
+    </View>
   );
 }
 
