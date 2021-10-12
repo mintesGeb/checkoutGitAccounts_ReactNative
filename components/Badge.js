@@ -1,9 +1,9 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-import { useRoute } from '@react-navigation/native';
+import { useRoute } from "@react-navigation/native";
 
 const Badge = ({ userInfo }) => {
-//    const account = useRoute().params.account;
+  //    const account = useRoute().params.account;
   const { avatar_url, name, login } = userInfo;
   return (
     <View style={styles.badge_container}>

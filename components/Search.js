@@ -17,10 +17,10 @@ const Search = ({ navigation }) => {
     const fetchAccount = async (account) => {
       try {
         const response = await fetch(`https://api.github.com/users/${account}`);
-        console.log(response);
+        // console.log(response);
         if (response.status == "200") {
           const data = await response.json();
-          console.log(data);
+          // console.log(data);
 
           navigation.navigate("Dashboard", { data });
         }

@@ -22,11 +22,11 @@ function StackNavigation() {
       <Stack.Screen
         name="Dashboard"
         component={Dashboard}
-        options={
-          {
-            // headerTitle:,
-          }
-        }
+        options={(props) => {
+          return {
+            headerTitle: props.route.params.data.name,
+          };
+        }}
       />
       <Stack.Screen name="Profile-Details" component={ProfileDetails} />
       <Stack.Screen name="Notes" component={Notes} />
