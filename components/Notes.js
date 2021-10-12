@@ -21,7 +21,6 @@ function Notes({
   const [notes, setNotes] = React.useState(["x", "y"]);
 
   const noteTyped = (text) => {
-    console.log(text);
     setNote(text);
   };
   const submitted = () => {

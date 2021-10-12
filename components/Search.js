@@ -5,7 +5,7 @@ import { StyleSheet, View, Text } from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 
 const Search = ({ navigation }) => {
-  const [username, setUsername] = useState("asaadsaad");
+  const [username, setUsername] = useState("");
   const [loading, setLoading] = useState("");
   const [error, setError] = useState("");
 
