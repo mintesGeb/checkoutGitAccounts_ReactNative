@@ -6,6 +6,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 
 import Separator from "./Separator";
@@ -26,14 +27,18 @@ function Repositories({
     async function fetchRepo(url) {
       let response = await fetch(url);
       let data = await response.json();
-      console.log(data);
+      
       setState({ ...state, list: data });
     }
     fetchRepo(account.repos_url);
   }, []);
 
   const repoPressed = (url) => {
-    navigate("Web-View", { url });
+    setTimeout(() => {
+      setState({ ...state, loading: false });
+      navigate("Web-View", { url });
+    }, 1000);
+    setState({ ...state, loading: true });
   };
 
   return (
@@ -45,6 +50,7 @@ function Repositories({
           login: account.login,
         }}
       />
+      {state.loading ? <ActivityIndicator size="large" /> : null}
       <ScrollView>
         {state.list.map((item) => {
           return (

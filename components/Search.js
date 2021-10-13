@@ -1,34 +1,44 @@
 import { useRoute } from "@react-navigation/core";
 import { NavigationContainer } from "@react-navigation/native";
-import React, { useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import React, { useEffect, useState, useRef } from "react";
+import { StyleSheet, View, Text , ActivityIndicator} from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 
 const Search = ({ navigation }) => {
-  const [username, setUsername] = useState("");
-  const [loading, setLoading] = useState("");
-  const [error, setError] = useState("");
+  const inputRef = useRef();
+
+  const [state, setState] = useState({
+    username: "",
+    loading: false,
+    error: "",
+  });
 
   const onChangeText = (text) => {
-    setUsername(text.toLowerCase());
+    setState({ ...state, username: text.toLowerCase() });
   };
+  useEffect(() => {
+    inputRef.current.focus();
+  });
 
   const searchPressed = () => {
     const fetchAccount = async (account) => {
       try {
         const response = await fetch(`https://api.github.com/users/${account}`);
-        // console.log(response);
+
         if (response.status == "200") {
           const data = await response.json();
-          // console.log(data);
 
           navigation.navigate("Dashboard", { data });
         }
       } catch (err) {
-        setError(err);
+        setState({ ...state, error: err });
       }
     };
-    fetchAccount(username);
+    setTimeout(() => {
+      setState({ ...state, loading: false });
+      fetchAccount(state.username);
+    }, 1000);
+    setState({ ...state, loading: true });
   };
   return (
     <View style={styles.container}>
@@ -36,13 +46,15 @@ const Search = ({ navigation }) => {
       <TextInput
         style={styles.searchInput}
         placeholder="GitHub username"
-        value={username}
+        value={state.username}
         onChangeText={onChangeText}
-        autoFocus={true}
+        ref={inputRef}
+        // autoFocus={true}
       />
       <TouchableOpacity style={styles.button} onPress={searchPressed}>
         <Text style={styles.buttonText}>Search</Text>
       </TouchableOpacity>
+      {state.loading ? <ActivityIndicator size="large"/>:null}
     </View>
   );
 };
@@ -55,7 +67,7 @@ const styles = StyleSheet.create({
     padding: 30,
   },
   title: {
-    // marginBottom: 20,
+    marginBottom: 20,
     fontSize: 25,
     textAlign: "center",
     color: "white",
